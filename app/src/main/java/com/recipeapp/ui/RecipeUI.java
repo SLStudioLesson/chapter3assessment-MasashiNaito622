@@ -51,7 +51,44 @@ public class RecipeUI {
             System.out.println("Error reading file: " + ex.getMessage());
         }
     }
-    
+    //addNewRecipe メソッド
+    private void addNewRecipe() {
+        try{
+            //ユーザーからレシピ名と主な材料を入力を受け付ける
+            //レシピ名を受け付け
+            System.out.println("Adding a new recipe.");
+            System.out.print("Enter recipe name: ");
+            String name = reader.readLine();
+
+            //材料名を受け付け
+            ArrayList<Ingredient>ingredients = new ArrayList<>();
+            System.out.println("Enter ingredients (type 'done' when finished):");
+            while(true){
+                System.out.print("Ingredient: ");
+                String ingredient = reader.readLine();
+
+                //doneが入力されるまで、材料を入力 doneが入ったら終了
+                if("done".equals(ingredient)){
+                    break;
+                }
+                //入力された材料を入力
+                Ingredient ingredientParts = new Ingredient(ingredient);
+                ingredients.add(ingredientParts);
+            }
+            //レシピ名とリスト化された材料名を持ったインスタンスを生成する
+            Recipe recipe = new Recipe(name,ingredients);
+            //レシピデータに書き込みを加える
+            dataHandler.writeData(recipe);
+            //入力成功を伝える
+            System.out.println("Recipe added successfully.");
+
+
+
+        }catch(IOException ex){//IOExceptionを受け取った場合はFailed to add new recipe: 例外のメッセージとコンソールに表示
+            System.out.println("Failed to add new recipe: "+ ex.getMessage());
+        }
+
+    }
 
     public void displayMenu() {
 
@@ -71,12 +108,10 @@ public class RecipeUI {
 
                 switch (choice) {
                     case "1":
-                        //displayRecipes を呼び出す
-                        displayRecipes();
+                        displayRecipes();//displayRecipes を呼び出す
                         break;
                     case "2":
-                        //addNewRecipeを呼び出す(エラーが出るため一旦コメントアウト)
-                        //addNewRecipe();
+                        addNewRecipe();//addNewRecipeを呼び出す
                         break;
                     case "3":
                         break;

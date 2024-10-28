@@ -62,6 +62,19 @@ public class CSVDataHandler implements DataHandler {
     @Override
     public void writeData(Recipe recipe) throws IOException {
         // 実装は後で行います
-        
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) {
+            //レシピ名と材料をカンマ区切りで1行として書き込む
+            //レシピ名を書き込む
+            writer.write(recipe.getName());
+
+            //材料名を書き込む
+            for(Ingredient ingredient:recipe.getIngredients()){
+                writer.write(", "+ ingredient.getName());
+            }
+             // 行を追加
+            writer.newLine();
+        } catch (IOException ex) {
+            System.out.println("Error writing to file: " + ex.getMessage());
+        }
     }
 }
